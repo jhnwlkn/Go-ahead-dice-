@@ -10,6 +10,56 @@
 
 using namespace std;
 
+void game(){
+	int a = 1, b = 3, x, c = 2, d = 3, y;
+	
+	WINDOW * win = newwin(20, 75, 3, 23);
+	refresh();
+	box(win, 0, 0);
+    wrefresh(win);
+	
+	keypad(stdscr,TRUE);
+	srand(time(NULL));
+	x = (rand()%12)+1;
+	y = (rand()%12)+1;
+	mvprintw(4, 24, "Press space for spin dice!");
+	mvprintw(8, 24, "P1");
+	mvprintw(11, 24, "P2");
+	mvprintw(a, b, ".");
+	mvprintw(c, d, ",");
+	
+	mvprintw(7, 70, "|F|");
+	mvprintw(8, 70, "|I|");
+	mvprintw(9, 70, "|N|");
+	mvprintw(10, 70, "|I|");
+	mvprintw(11, 70, "|S|");
+	mvprintw(12, 70, "|H|");
+	
+	while( b == 74 && d == 74){
+		char dice = getch();
+		if(dice == KEY_SPACE){
+			b += x;
+			for(int i = 28 ; i <= b ; i++){
+				refresh();
+				wclear(win);
+				Sleep(500);
+				mvprintw(a, i, ".");
+			}                    
+			
+		char dice = getch();
+		if(dice == KEY_SPACE){
+			d += y;
+			for(int i = 28 ; i <= d ; i++){
+				refresh();
+				wclear(win);
+				Sleep(500);
+				mvprintw(c, i, ",");
+			}
+		}		
+		}
+	}
+	printw("WINNER")	;
+}
 
 void menu(){
 	mvprintw(7,51,"................");
@@ -26,45 +76,45 @@ void menu(){
 }
 
 void menu11(){
-	mvprintw(7,49,"  ................");
-   	mvprintw(8,49,"=>|1| PLAY A GAME|");
-   	mvprintw(9,49,"  ................");
+	mvprintw(7,48,"   ................");
+   	mvprintw(8,48,"=> |1| PLAY A GAME|");
+   	mvprintw(9,48,"   ................");
    	
-   	mvprintw(10,49,"  ................");
-	mvprintw(11,49,"  |2| LEADERBOARD|");
-    mvprintw(12,49,"  ................");
+   	mvprintw(10,48,"   ................");
+	mvprintw(11,48,"   |2| LEADERBOARD|");
+    mvprintw(12,48,"   ................");
     
-    mvprintw(13,49,"  ................");
-    mvprintw(14,49,"  |3|    EXIT    |");
-    mvprintw(15,49,"  ................");
+    mvprintw(13,48,"   ................");
+    mvprintw(14,48,"   |3|    EXIT    |");
+    mvprintw(15,48,"   ................");
 }
 
 void menu22(){
-	mvprintw(7,49,"  ................");
-   	mvprintw(8,49,"  |1| PLAY A GAME|");
-   	mvprintw(9,49,"  ................");
+	mvprintw(7,48,"   ................");
+   	mvprintw(8,48,"   |1| PLAY A GAME|");
+   	mvprintw(9,48,"   ................");
 	
-	mvprintw(10,49,"  ................");
-	mvprintw(11,49,"=>|2| LEADERBOARD|");
-    mvprintw(12,49,"  ................");
+	mvprintw(10,48,"   ................");
+	mvprintw(11,48,"=> |2| LEADERBOARD|");
+    mvprintw(12,48,"   ................");
     
-    mvprintw(13,49,"  ................");
-    mvprintw(14,49,"  |3|    EXIT    |");
-    mvprintw(15,49,"  ................");
+    mvprintw(13,48,"   ................");
+    mvprintw(14,48,"   |3|    EXIT    |");
+    mvprintw(15,48,"   ................");
 }
 
 void menu33(){
-	mvprintw(7,49,"  ................");
-   	mvprintw(8,49,"  |1| PLAY A GAME|");
-   	mvprintw(9,49,"  ................");
+	mvprintw(7,48,"   ................");
+   	mvprintw(8,48,"   |1| PLAY A GAME|");
+   	mvprintw(9,48,"   ................");
    	
-   	mvprintw(10,49,"  ................");
-	mvprintw(11,49,"  |2| LEADERBOARD|");
-    mvprintw(12,49,"  ................");
+   	mvprintw(10,48,"   ................");
+	mvprintw(11,48,"   |2| LEADERBOARD|");
+    mvprintw(12,48,"   ................");
     
-	mvprintw(13,49,"  ................");
-    mvprintw(14,49,"=>|3|    EXIT    |");
-    mvprintw(15,49,"  ................");
+	mvprintw(13,48,"   ................");
+    mvprintw(14,48,"=> |3|    EXIT    |");
+    mvprintw(15,48,"   ................");
 }
 
 int main(){
@@ -111,8 +161,8 @@ int main(){
 	box(win2, 0, 0);
     wrefresh(win2);
     
-   	mvprintw(5,51,"ULER LURUS GAME");
-   	mvprintw(6,54,"MAIN MENU");
+   	mvprintw(5,52,"GO-AHEAD DICE!");
+   	mvprintw(6,55,"MAIN MENU");
 
    	menu();
 
@@ -137,7 +187,8 @@ int main(){
 		}
 		if(pilihan == '\n'){
 			if (selection == 1 ){
-        		printw("game");
+				clear();
+        		game();
         	}
         	
         	else if (selection == 2 ){
@@ -162,12 +213,11 @@ int main(){
 			menu33();		
 		}
 	}
-	
-
+    
+    
    	getch();
    	
    	endwin();
    	
     	
 }
-
