@@ -1,4 +1,5 @@
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
+#include <iostream>
 #include <windows.h>
 #include <stdlib.h>
 #include <cstdlib>
@@ -9,6 +10,29 @@
 #define KEY_SPACE 32
 
 using namespace std;
+
+void leaderboard(){
+	int arr[5] = {13, 19, 20, 4, 10};
+	bool swapped;
+	int indexOfUnsorted = 4;
+	string name[5] = {"player 1", "player 2", "player 3", "player 4", "Komputer"};
+	
+	do{
+		swapped = false;
+		for(int n = 0;n < indexOfUnsorted;n++){
+			if(arr[n + 1] > arr[n]){
+				int temp = arr[n + 1];
+				arr[n + 1] = arr[n];
+				arr[n] = temp;
+				swapped = true;
+			}
+		}
+		indexOfUnsorted--;
+	}while(swapped);
+	for (int n = 0; n < 5; n++){
+		cout << name[n] << " - " << arr[n] << endl;
+	}
+}
 
 void game(){
 	int a = 1, b = 3, x, c = 2, d = 3, y;
@@ -192,7 +216,8 @@ int main(){
         	}
         	
         	else if (selection == 2 ){
-	        	printw("leaderboard");
+        		clear();
+	        	leaderboard();
 	    	}
 	    	
 	    	else if(selection == 3){
