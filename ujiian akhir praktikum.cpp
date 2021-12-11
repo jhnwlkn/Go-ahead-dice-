@@ -1,5 +1,4 @@
-#include <ncurses/ncurses.h>
-#include <iostream>
+#include <ncurses.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <cstdlib>
@@ -11,81 +10,9 @@
 
 using namespace std;
 
-void leaderboard(){
-	int arr[5] = {13, 19, 20, 4, 10};
-	bool swapped;
-	int indexOfUnsorted = 4;
-	string name[5] = {"player 1", "player 2", "player 3", "player 4", "Komputer"};
-	
-	do{
-		swapped = false;
-		for(int n = 0;n < indexOfUnsorted;n++){
-			if(arr[n + 1] > arr[n]){
-				int temp = arr[n + 1];
-				arr[n + 1] = arr[n];
-				arr[n] = temp;
-				swapped = true;
-			}
-		}
-		indexOfUnsorted--;
-	}while(swapped);
-	for (int n = 0; n < 5; n++){
-		cout << name[n] << " - " << arr[n] << endl;
-	}
-}
+int poin1=0, poin2=0;
 
-void game(){
-	int a = 1, b = 3, x, c = 2, d = 3, y;
-	
-	WINDOW * win = newwin(20, 75, 3, 23);
-	refresh();
-	box(win, 0, 0);
-    wrefresh(win);
-	
-	keypad(stdscr,TRUE);
-	srand(time(NULL));
-	x = (rand()%12)+1;
-	y = (rand()%12)+1;
-	mvprintw(4, 24, "Press space for spin dice!");
-	mvprintw(8, 24, "P1");
-	mvprintw(11, 24, "P2");
-	mvprintw(a, b, ".");
-	mvprintw(c, d, ",");
-	
-	mvprintw(7, 70, "|F|");
-	mvprintw(8, 70, "|I|");
-	mvprintw(9, 70, "|N|");
-	mvprintw(10, 70, "|I|");
-	mvprintw(11, 70, "|S|");
-	mvprintw(12, 70, "|H|");
-	
-	while( b == 74 && d == 74){
-		char dice = getch();
-		if(dice == KEY_SPACE){
-			b += x;
-			for(int i = 28 ; i <= b ; i++){
-				refresh();
-				wclear(win);
-				Sleep(500);
-				mvprintw(a, i, ".");
-			}                    
-			
-		char dice = getch();
-		if(dice == KEY_SPACE){
-			d += y;
-			for(int i = 28 ; i <= d ; i++){
-				refresh();
-				wclear(win);
-				Sleep(500);
-				mvprintw(c, i, ",");
-			}
-		}		
-		}
-	}
-	printw("WINNER")	;
-}
-
-void menu(){
+void menu00(){
 	mvprintw(7,51,"................");
    	mvprintw(8,51,"|1| PLAY A GAME|");
    	mvprintw(9,51,"................");
@@ -141,13 +68,17 @@ void menu33(){
     mvprintw(15,48,"   ................");
 }
 
+void menu();
+void leaderboard();
+void game();
+
 int main(){
     
    	initscr();
    	
    	curs_set(0);
    	
-    WINDOW * win = newwin(20, 75, 3, 23);
+   	WINDOW * win = newwin(20, 75, 3, 23);
 	refresh();
 	box(win, 0, 0);
     wrefresh(win);
@@ -180,15 +111,97 @@ int main(){
 	   
    	attroff(COLOR_PAIR(1));
    	
+    menu();
+    
+   	getch();
+   	
+   	endwin();
+   	
+    	
+}
+
+void game(){
+	char finish[8] = {'|','F','I','N','I','S','H','|'};
+	
+	WINDOW * win2 = newwin(20, 75, 3, 23);
+   	refresh();
+	box(win2, 0, 0);
+    wrefresh(win2);
+	char pil;
+	int a = 10, b = 52, x, c = 11 , d = 52, y;
+	
+	keypad(stdscr,TRUE);
+	srand(time(NULL));
+	x = (rand()%6)+1;
+	y = (rand()%6)+1;
+	mvprintw(9,48,"Press space for spin dice!");
+	mvprintw(10, 48, "P1");
+	mvprintw(11, 48, "P2");
+	mvprintw(a, b, ".");
+	mvprintw(c, d, ",");
+	for (int i = 0; i <= 7; i++ ){
+		mvprintw(10, 66+i, "%c", finish[i]);
+		mvprintw(11, 66+i, "%c", finish[i]);
+	}
+
+	while( b < 65 && d < 65){
+		char dice = getch();
+		if(dice == KEY_SPACE){
+			b += x;
+			for(int i = 53 ; i <= b ; i++){
+				refresh();
+				Sleep(100);
+				mvprintw(a, i, ".");
+			}
+		}
+		dice = getch();
+		if(dice == KEY_SPACE){
+			d += y;
+			for(int i = 53 ; i <= d ; i++){
+				refresh();
+				Sleep(100);
+				mvprintw(c, i, ",");
+			}
+		}		
+	}
+	
+	if (b >= 65){
+		clear();
+        refresh();
+        box(win2, 0, 0);
+        wrefresh(win2); 
+		mvprintw(11,57,"[P1 WIN!]");
+		poin1++;
+	} else if (d >= 65){
+		clear();
+        refresh();
+      	box(win2, 0, 0);
+        wrefresh(win2); 
+		mvprintw(11,57,"[P2 WIN!]");
+		poin2++;
+	}
+	refresh();
+	box(win2, 0, 0);
+	mvprintw(19, 55, "Back to menu? (y/n)");
+	char back = getch();
+	if(back == 'y'){
+		menu();
+	} else if(back == 'n'){
+		exit(0);
+	}
+}
+
+void menu(){
+   	
    	WINDOW * win2 = newwin(20, 75, 3, 23);
    	refresh();
 	box(win2, 0, 0);
     wrefresh(win2);
     
-   	mvprintw(5,52,"GO-AHEAD DICE!");
-   	mvprintw(6,55,"MAIN MENU");
+   	mvprintw(5,52,"Go-Ahead Dice");
+   	mvprintw(6,54,"MAIN MENU");
 
-   	menu();
+   	menu00();
 
 //#define KEY_UP 72
 //#define KEY_DOWN 80
@@ -216,7 +229,7 @@ int main(){
         	}
         	
         	else if (selection == 2 ){
-        		clear();
+				clear();
 	        	leaderboard();
 	    	}
 	    	
@@ -238,11 +251,27 @@ int main(){
 			menu33();		
 		}
 	}
-    
-    
-   	getch();
-   	
-   	endwin();
-   	
-    	
+}
+
+void leaderboard(){
+	clear();
+	mvprintw(9,46,"_______________________________");
+	mvprintw(10,46,"||       PLAYER       || WIN ||");
+	mvprintw(11,46,"||====================||=====||");
+	mvprintw(12,46,"||         P1         ||     ||");
+	mvprintw(13,46,"||         P2         ||     ||");
+	mvprintw(14,46,"||____________________||_____||");
+	
+	move(53, 77);
+	mvprintw(12,72,"%d", poin1);
+	move(54, 77);
+	mvprintw(13,72,"%d", poin2);
+	
+	mvprintw(18, 52, "Back to menu?(y/n)");
+	char back = getch();
+	if(back == 'y'){
+		menu();
+	} else if(back == 'n'){
+		exit(0);
+	}
 }
